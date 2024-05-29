@@ -21,7 +21,7 @@ services:
   frontend:
     build:
       context: frontend
-    command: sh -c "npm run dev" 
+    command: npm run dev
     depends_on: 
       - backend
     volumes:
