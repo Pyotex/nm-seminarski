@@ -1,0 +1,10 @@
+flask
+matplotlib
+numpy
+pandas
+torch
+torchvision
+Pillow
+opencv-python
+opencv-python-headless
+gunicorn

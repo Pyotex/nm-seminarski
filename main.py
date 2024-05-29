@@ -51,6 +51,10 @@ train_df = dataset[dataset["Usage"] == "Training"]
 val_df = dataset[dataset["Usage"] == "PublicTest"]
 test_df = dataset[dataset["Usage"] == "PrivateTest"]
 
+print("Training DataFrame size:", train_df.shape)
+print("Validation DataFrame size:", val_df.shape)
+print("Test DataFrame size:", test_df.shape)
+
 
 train_transform = transforms.Compose([
     transforms.ToTensor(),
@@ -131,14 +135,14 @@ class Net(nn.Module):
 
 net = Net()
 
-# device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
-# net.to(device)
+device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+net.to(device)
 
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(net.parameters(), lr=0.001)
 
 
-for epoch in range(2):  # loop over the dataset multiple times
+for epoch in range(10):  # loop over the dataset multiple times
     start_time = time.time()
 
     running_loss = 0.0
@@ -148,6 +152,7 @@ for epoch in range(2):  # loop over the dataset multiple times
 
         # get the inputs; data is a list of [inputs, labels]
         inputs, labels = data
+        inputs, labels = inputs.to(device), labels.to(device)
 
         # zero the parameter gradients
         optimizer.zero_grad()
@@ -181,17 +186,18 @@ total = 0
 with torch.no_grad():
     for data in test_dataloader:
         images, labels = data
+        images, labels = images.to(device), labels.to(device)
         outputs = net(images)
         _, predicted = torch.max(outputs.data, 1)
         total += labels.size(0)
         correct += (predicted == labels).sum().item()
 
-# Get some random test images
-dataiter = iter(test_dataloader)
-images, labels = next(dataiter)
+# # Get some random test images
+# dataiter = iter(test_dataloader)
+# images, labels = next(dataiter)
 
-# Print images
-plt.imshow(torchvision.utils.make_grid(images).permute(1, 2, 0), cmap='gray')
-plt.show()
+# # Print images
+# plt.imshow(torchvision.utils.make_grid(images).permute(1, 2, 0), cmap='gray')
+# plt.show()
 
 print(f'Accuracy: {100 * correct / total:.2f}%')
