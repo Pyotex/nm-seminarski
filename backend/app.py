@@ -58,8 +58,6 @@ def upload_image():
     image = np.array(image)
     # Convert RGB to BGR (required for OpenCV)
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-    face = Image.fromarray(image)
-    face.save('face.jpg')
 
     # Load the pre-trained Haar Cascade classifier for face detection
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
@@ -88,8 +86,6 @@ def upload_image():
         
         # Convert the image to grayscale
         grayscale_face = resized_face.convert('L')
-
-        grayscale_face.save('cropped_face_48x48.jpg')
 
 
     # Convert the image to a numpy array
