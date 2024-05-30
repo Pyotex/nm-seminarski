@@ -75,7 +75,6 @@ net.to(device)
 
 
 def predict_emotion(image_tensor):
-    # Pass the tensor through the model
     net.eval()
     start_time = time.time()
 
