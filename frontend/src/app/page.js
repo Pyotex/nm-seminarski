@@ -93,7 +93,7 @@ const ImageUpload = () => {
       <p className='py-0'>ili</p>
       <div className='flex flex-col justify-end items-center gap-y-4 border-dashed border-neutral-500 rounded-2xl border-2 p-4 w-full max-w-sm'>
         <h2 className='text-center font-semibold text-xl'>Koristi web kameru</h2>
-        <video autoPlay playsInline controlsList="nodownload nofullscreen noremoteplayback" ref={videoRef} className="w-full rounded-lg" />
+        <video playsInline muted autoPlay controlsList="nodownload nofullscreen noremoteplayback" ref={videoRef} className="w-full rounded-lg" />
         {!cameraActive && <button className='bg-neutral-500 rounded-lg py-2 px-4 w-full' onClick={startWebcam}>Uključi kameru</button>}
         {cameraActive && <button className='bg-blue-700 rounded-lg py-2 px-4 w-full' onClick={captureImage}>Slikaj</button>}
         <canvas ref={canvasRef} className='hidden'></canvas>
