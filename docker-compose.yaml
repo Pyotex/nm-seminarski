@@ -24,6 +24,6 @@ services:
     command: npm run dev
     depends_on: 
       - backend
-    # volumes:
-    #   - ./frontend:/usr/local/app/
+    volumes:
+      - ./frontend:/usr/local/app/
     restart: always

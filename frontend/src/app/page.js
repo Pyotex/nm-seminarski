@@ -4,7 +4,9 @@ import { useState, useRef } from 'react';
 
 const ImageUpload = () => {
   const [message, setMessage] = useState('');
+  const [webcamMessage, setWebcamMessage] = useState('');
   const videoRef = useRef(null);
+  const [cameraActive, setCameraActive] = useState(false);
   const canvasRef = useRef(null);
 
   const startWebcam = () => {
@@ -13,6 +15,7 @@ const ImageUpload = () => {
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
           videoRef.current.play();
+          setCameraActive(true);
         }
       })
       .catch(error => {
@@ -45,7 +48,7 @@ const ImageUpload = () => {
       });
 
       const result = await response.json();
-      setMessage(result.message || 'Image uploaded successfully');
+      setWebcamMessage(result.message || 'Image uploaded successfully');
     } catch (error) {
       console.error('Error uploading image:', error);
       setMessage('Error uploading image');
@@ -79,16 +82,23 @@ const ImageUpload = () => {
   };
 
   return (
-    <div className='w-full flex flex-col justify-center items-center gap-y-2 h-screen'>
-      <input type="file" id="imageInput" className="hidden" />
-      <label htmlFor="imageInput" className="custom-file-upload bg-white text-black border border-green-600 rounded px-3 py-2 cursor-pointer transition duration-300 ease-in-out hover:bg-green-500">Ubaci sliku</label>
-      <button onClick={uploadImage} className='rounded-md bg-white text-black px-4 py-2'>Testiraj</button>
-      <br />
-      <video ref={videoRef} className="w-[320px] h-[240px] rounded-lg" />
-      <button onClick={startWebcam}>Uključi kameru</button>
-      <button onClick={captureImage}>Slikaj</button>
-      <canvas ref={canvasRef} className='hidden'></canvas>
-      {message && <p>Rezultat: {message}</p>}
+    <div className='w-full flex flex-col justify-evenly items-center gap-y-2 h-screen px-4'>
+      <div className='flex flex-col justify-start items-center gap-y-4 border-dashed border-neutral-500 rounded-2xl border-2 p-4 w-full max-w-sm'>
+        <h2 className='text-center font-semibold text-xl'>Otpremi sliku</h2>
+        <input type="file" id="imageInput" className="hidden" />
+        <label htmlFor="imageInput" className="text-center w-full custom-file-upload bg-neutral-500 text-white rounded-lg px-3 py-2">Otpremi</label>
+        <button onClick={uploadImage} className='rounded-lg bg-blue-700 w-full text-white px-4 py-2'>Testiraj</button>
+        {message && <p>Rezultat: {message}</p>}
+      </div>
+      <p className='py-0'>ili</p>
+      <div className='flex flex-col justify-end items-center gap-y-4 border-dashed border-neutral-500 rounded-2xl border-2 p-4 w-full max-w-sm'>
+        <h2 className='text-center font-semibold text-xl'>Koristi web kameru</h2>
+        <video autoPlay playsInline controlsList="nodownload nofullscreen noremoteplayback" ref={videoRef} className="w-full rounded-lg" />
+        {!cameraActive && <button className='bg-neutral-500 rounded-lg py-2 px-4 w-full' onClick={startWebcam}>Uključi kameru</button>}
+        {cameraActive && <button className='bg-blue-700 rounded-lg py-2 px-4 w-full' onClick={captureImage}>Slikaj</button>}
+        <canvas ref={canvasRef} className='hidden'></canvas>
+        {webcamMessage && <p>Rezultat: {webcamMessage}</p>}
+      </div>
     </div>
   );
 };
