@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  backend:
+    build: backend
+    command: flask --app app run --host 0.0.0.0 --port 8000 --debug
+    # command: bash -c "gunicorn --workers 3 --max-requests 100 --max-requests-jitter 50 --bind 0.0.0.0:8000 app:app"
+    restart: always
+    volumes:
+    - ./backend:/usr/local/app/
+
+  gateway:
+    build: gateway
+    ports:
+      - '8000:80'
+    depends_on:
+      - backend
+      - frontend
+    restart: always
+  
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile.prod
+    command: npm run start
+    depends_on: 
+      - backend
+    restart: always
