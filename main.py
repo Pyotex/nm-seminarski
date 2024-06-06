@@ -86,11 +86,9 @@ val_dataloader = DataLoader(val_dataset, batch_size, shuffle=False)
 test_dataloader = DataLoader(test_dataset, batch_size, shuffle=False)
 
 
-# Get some random test images
 dataiter = iter(train_dataloader)
 images, labels = next(dataiter)
 
-# Print images
 plt.imshow(torchvision.utils.make_grid(images).permute(1, 2, 0), cmap='gray')
 plt.show()
 
@@ -142,31 +140,24 @@ criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(net.parameters(), lr=0.001)
 
 
-for epoch in range(10):  # loop over the dataset multiple times
+for epoch in range(10):
     start_time = time.time()
 
     running_loss = 0.0
     for i, data in enumerate(train_dataloader, 0):
-        # inputs, labels = data
-        # inputs, labels = inputs.to(device), labels.to(device)
-
-        # get the inputs; data is a list of [inputs, labels]
         inputs, labels = data
         inputs, labels = inputs.to(device), labels.to(device)
 
-        # zero the parameter gradients
         optimizer.zero_grad()
 
-        # forward + backward + optimize
         outputs = net(inputs)
         loss = criterion(outputs, labels)
         loss.backward()
         optimizer.step()
 
 
-        # print statistics
         running_loss += loss.item()
-        if i % 100 == 99:    # print every 100 mini-batches
+        if i % 100 == 99:
             print(f'[Epoch {epoch + 1}, Batch {i + 1}] loss: {running_loss / 100:.3f}')
             running_loss = 0.0
     
@@ -176,8 +167,6 @@ for epoch in range(10):  # loop over the dataset multiple times
 print('Finished Training')
 
 
-
-# save the model weights
 torch.save(net.state_dict(), 'facial_cnn.pth')
 
 
@@ -191,13 +180,5 @@ with torch.no_grad():
         _, predicted = torch.max(outputs.data, 1)
         total += labels.size(0)
         correct += (predicted == labels).sum().item()
-
-# # Get some random test images
-# dataiter = iter(test_dataloader)
-# images, labels = next(dataiter)
-
-# # Print images
-# plt.imshow(torchvision.utils.make_grid(images).permute(1, 2, 0), cmap='gray')
-# plt.show()
 
 print(f'Accuracy: {100 * correct / total:.2f}%')

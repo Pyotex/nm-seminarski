@@ -76,36 +76,17 @@ net.load_state_dict(torch.load('facial_cnn.pth'))
 device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
 net.to(device)
 
-# Load the image
 image_path = 'cropped_face_48x48.jpg'
 image = Image.open(image_path)
-
-# Convert the image to a numpy array
 image_array = np.array(image)
-
-# Normalize the array to the range [0, 1]
 image_array = image_array / 255.0
-
-# Convert the numpy array to a PyTorch tensor
 image_tensor = torch.tensor(image_array, dtype=torch.float32)
-
-# Add a batch dimension (1, 1, 48, 48)
 image_tensor = image_tensor.unsqueeze(0).unsqueeze(0)
-
-# image_tensor.to(device)
-
-# At this point, you'd have your PyTorch model ready to make predictions
-# Assuming your model is called `model` and it's already loaded
-
-# model = ...  # replace with your model loading logic
-
-# Make sure the model is in evaluation mode
 net.eval()
 
 elapsed_time = time.time() - start_time
 print(f'Setup finished in {elapsed_time:.2f} seconds')
 
-# Pass the tensor through the model
 start_time = time.time()
 
 with torch.no_grad():

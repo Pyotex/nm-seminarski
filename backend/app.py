@@ -30,7 +30,7 @@ def rotate_image(image):
             return image
             print(f"Image rotated and saved to {path}")
 
-    except (AttributeError, KeyError, IndexError):
+    except:
         pass
 
     return image
@@ -54,9 +54,7 @@ def upload_image():
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-
     gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
     faces = face_cascade.detectMultiScale(gray_image, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
 
     if len(faces) == 0:
@@ -65,20 +63,14 @@ def upload_image():
         (x, y, w, h) = faces[0]
         
         cropped_face = gray_image[y:y+h, x:x+w]
-        
         cropped_face_pil = Image.fromarray(cropped_face)
-        
         resized_face = cropped_face_pil.resize((48, 48), Image.LANCZOS)
-        
         grayscale_face = resized_face.convert('L')
 
 
     image_array = np.array(grayscale_face)
-
     image_array = image_array / 255.0
-
     image_tensor = torch.tensor(image_array, dtype=torch.float32)
-
     image_tensor = image_tensor.unsqueeze(0).unsqueeze(0)
 
     elapsed_time = time.time() - start_time
