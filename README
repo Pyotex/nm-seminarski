@@ -1,10 +1,3 @@
-If you use this dataset in your research work, please cite
-
-"Challenges in Representation Learning: A report on three machine learning
-contests." I Goodfellow, D Erhan, PL Carrier, A Courville, M Mirza, B
-Hamner, W Cukierski, Y Tang, DH Lee, Y Zhou, C Ramaiah, F Feng, R Li,
-X Wang, D Athanasakis, J Shawe-Taylor, M Milakov, J Park, R Ionescu,
-M Popescu, C Grozea, J Bergstra, J Xie, L Romaszko, B Xu, Z Chuang, and
-Y. Bengio. arXiv 2013.
-
-See fer2013.bib for a bibtex entry.
+Prepoznavanje emocija na licu je polje koje kombinuje kompjuterski vid i mašinsko učenje kako bi se automatski otkrile i prepoznale ljudske emocije na osnovu izraza lica. Sa primenama koje se kreću od poboljšanja korisničkog iskustva u interakciji čoveka i računara, do poboljšanja bezbednosnih sistema i pomaganja psihološkim istraživanjima.
+Ovaj projekat koristi konvolucijsku neuronsku mrežu, treniranu na FER2018 skupu podataka, i implementiranu pomoću PyTorch biblioteke. Cilj je bio da se razvije model sposoban da precizno detektuje emocije lica u realnom vremenu putem veb platforme. Pristupanjem sajtu emocije.ratkovic.rs korisnici mogu da koriste svoje veb kamere za analizu i prikaz svojih emocija.
+Dokumentacija pruža pregled razvoja projekta, od inicijalne pripreme podataka do implementacije veb platforme. Proći ćemo tehničke detalje arhitekture modela, procesa obuke i performansi.
